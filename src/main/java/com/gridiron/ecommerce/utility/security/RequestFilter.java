@@ -39,6 +39,7 @@ public class RequestFilter extends OncePerRequestFilter {
             throws IOException {
 
         try {
+
             // Check if API Key is missing or invalid
             if (isApiKeyMissing(request)) {
                 // If API key is invalid, set HTTP status and return error response
@@ -165,7 +166,9 @@ public class RequestFilter extends OncePerRequestFilter {
      */
     private boolean isApiKeyMissing(HttpServletRequest request) {
         String extractedApiKey = request.getHeader("X-Api-Key");
-        return extractedApiKey == null || !extractedApiKey.equals(apiKey); // replace with your valid API key logic
+
+        System.out.println("extracted api key: " + extractedApiKey);
+        return extractedApiKey == null || !extractedApiKey.equals(apiKey);
     }
 
     /**

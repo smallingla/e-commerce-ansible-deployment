@@ -1,0 +1,13 @@
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/ECommerceApplicationTests.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/TestECommerceApplication.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/TestcontainersConfiguration.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/integration/AbstractIntegrationTest.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/integration/cart/CartServiceIntegrationTest.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/integration/order/OrderServiceIntegrationTest.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/integration/product/ProductServiceIntegrationTest.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/integration/user/UserServiceIntegrationTest.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/unit/cart/CartServiceTest.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/unit/cartItem/CartItemServiceTest.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/unit/order/OrderServiceTest.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/unit/product/ProductServiceTest.java
+/Users/olakunlelawal/IdeaProjects/springboot-lawal_o/src/test/java/com/gridiron/ecommerce/unit/user/UserServiceTest.java

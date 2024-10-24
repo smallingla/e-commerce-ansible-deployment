@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_ACTIVE_PROFILE=production
+      - POSTGRES_URL=jdbc:postgresql://postgres:5432/grid-iron-e-commerce
+      - POSTGRES_USERNAME=grid-iron-user
+      - POSTGRES_PASSWORD=grid-iron-password
+      - API-KEY=Q2x3ZktmNVpSd05EQkoxZ0NURVZvcG5SVkNPaGhqcW4
+      - SECRET-KEY=2407d055-6c7f-471f-b7a5-cb08a00d216d
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: grid-iron-e-commerce
+      POSTGRES_USER: grid-iron-user
+      POSTGRES_PASSWORD: grid-iron-password
+    ports:
+      - "5555:5432"
