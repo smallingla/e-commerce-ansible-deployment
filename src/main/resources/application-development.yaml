@@ -14,5 +14,5 @@ spring:
 
 application:
   security:
-    secretKey: ${SECRET-KEY:2407d055-6c7f-471f-b7a5-cb08a00d216d}
-    apiKey: ${API-KEY:Q2x3ZktmNVpSd05EQkoxZ0NURVZvcG5SVkNPaGhqcW4}
+    secretKey: ${SECRET_KEY:2407d055-6c7f-471f-b7a5-cb08a00d216d}
+    apiKey: ${API_KEY:Q2x3ZktmNVpSd05EQkoxZ0NURVZvcG5SVkNPaGhqcW4}

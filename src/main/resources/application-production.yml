@@ -15,6 +15,6 @@ spring:
 
 application:
   security:
-    secretKey: ${SECRET-KEY}
-    apiKey: ${API-KEY}
+    secretKey: ${SECRET_KEY}
+    apiKey: ${API_KEY}
       

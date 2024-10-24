@@ -1,0 +1,75 @@
+#file: noinspection YAMLSchemaValidation
+- name: Deploy Spring Boot Application on remote server
+  hosts: web  # Adjust to match remote server configuration
+  become: yes  # This is for root permission, allowing Ansible to perform privileged tasks.
+  vars:
+    app_name: grid-iron-e-commerce
+    docker_compose_file: "{{ playbook_dir }}/docker-compose.yml"
+    docker_file: "{{ playbook_dir }}/Dockerfile"
+    pom_file: "{{ playbook_dir }}/pom.xml"
+    src_folder: "{{ playbook_dir }}/src"
+
+  tasks:
+    - name: Install Docker
+      ansible.builtin.package:
+        name: docker
+        state: present
+      become: yes
+
+    - name: Start and enable Docker service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+      become: yes
+
+    - name: Ensure Docker Compose is installed
+      ansible.builtin.command:
+        cmd: curl -L "https://github.com/docker/compose/releases/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      args:
+        creates: /usr/local/bin/docker-compose
+      become: yes
+
+    - name: Set execute permissions for Docker Compose
+      ansible.builtin.command:
+        cmd: chmod +x /usr/local/bin/docker-compose
+      become: yes
+
+    - name: Create application directory on remote server
+      ansible.builtin.file:
+        path: /opt/{{ app_name }}
+        state: directory
+        mode: '0755'
+      become: yes
+
+    - name: Copy Docker Compose file to the server
+      ansible.builtin.copy:
+        src: "{{ docker_compose_file }}"
+        dest: /opt/{{ app_name }}/docker-compose.yml
+
+    - name: Copy Dockerfile to the server
+      ansible.builtin.copy:
+        src: "{{ docker_file }}"
+        dest: /opt/{{ app_name }}/Dockerfile
+
+    - name: Copy pom.xml to the server
+      ansible.builtin.copy:
+        src: "{{ pom_file }}"
+        dest: /opt/{{ app_name }}/pom.xml
+
+    - name: Copy src directory to the server
+      ansible.builtin.copy:
+        src: "{{ src_folder }}"
+        dest: /opt/{{ app_name }}/src
+
+    - name: Clean up unused Docker images
+      ansible.builtin.command:
+        cmd: docker image prune -f
+      become: yes
+
+    - name: Build and run the application with Docker Compose on remote server
+      ansible.builtin.command:
+        cmd: docker-compose up --build -d
+        chdir: /opt/{{ app_name }}
+      become: yes
+

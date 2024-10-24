@@ -23,7 +23,6 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Component
-@RequiredArgsConstructor
 @Log
 public class RequestFilter extends OncePerRequestFilter {
 
@@ -33,6 +32,11 @@ public class RequestFilter extends OncePerRequestFilter {
 
     @Value("${application.security.apiKey}")
     private String apiKey;
+
+    public RequestFilter(JwtService jwtService, DefaultRouteValidator routeValidator) {
+        this.jwtService = jwtService;
+        this.routeValidator = routeValidator;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

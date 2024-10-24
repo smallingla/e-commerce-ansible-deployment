@@ -15,7 +15,9 @@ public class DefaultRouteValidator {
             List.of(Pattern.compile("/api/v1/users/public.*"),
                     Pattern.compile("/api/v1/users/public($|\\?.)"),
                     Pattern.compile("/api/v1/products/public.*"),
-                    Pattern.compile("/api/v1/products/public($|\\?.)")
+                    Pattern.compile("/api/v1/products/public($|\\?.)"),
+                    Pattern.compile("/api/v1/actuator($|\\?.)"),
+                    Pattern.compile("/api/v1/actuator.*")
             );
 
     //list of access points accessible to only ADMIN users

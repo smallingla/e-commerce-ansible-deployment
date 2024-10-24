@@ -1,0 +1,9 @@
+- name: Build and run Docker containers locally
+  hosts: localhost
+  vars:
+    api_key: grid-iron-e-commerce
+  tasks:
+    - name: Build and run the application with Docker Compose
+      ansible.builtin.command:
+        cmd: docker-compose up --build -d
+        chdir: "{{ playbook_dir }}"
