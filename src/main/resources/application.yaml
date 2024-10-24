@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/grid-iron-e-commerce
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+application:
+  security:
+    secretKey: ${SECRET-KEY:2407d055-6c7f-471f-b7a5-cb08a00d216d}
+    apiKey: ${API-KEY:Q2x3ZktmNVpSd05EQkoxZ0NURVZvcG5SVkNPaGhqcW4}
