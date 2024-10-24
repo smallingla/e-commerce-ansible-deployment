@@ -20,39 +20,6 @@ public class DefaultRouteValidator {
                     Pattern.compile("/api/v1/actuator.*")
             );
 
-    //list of access points accessible to only ADMIN users
-    public static final List<Pattern> adminAccessibleApiEndpoints =
-
-            List.of(
-                    Pattern.compile("/api/v1/users/private/admin.*"),
-                    Pattern.compile("/api/v1/users/private/admin($|\\?.)"),
-                    Pattern.compile("/api/v1/products/private.*"),
-                    Pattern.compile("/api/v1/products/private($|\\?.)"),
-                    Pattern.compile("/api/v1/orders/admin.*"),
-                    Pattern.compile("/api/v1/orders/admin($|\\?.)")
-
-            );
-
-    //list of access points accessible to only CUSTOMER users
-    public static final List<Pattern> customerAccessibleApiEndpoints =
-
-            List.of(
-                    Pattern.compile("/api/v1/carts/private.*"),
-                    Pattern.compile("/api/v1/carts/private($|\\?.)"),
-                    Pattern.compile("/api/v1/orders/customer.*"),
-                    Pattern.compile("/api/v1/orders/customer($|\\?.)")
-            );
-
-    public Predicate<HttpServletRequest> isAdminSecured =
-            request -> adminAccessibleApiEndpoints
-                    .stream()
-                    .anyMatch(pattern -> pattern.matcher(request.getRequestURI()).matches());
-
-    public Predicate<HttpServletRequest> isCustomerSecured =
-            request -> customerAccessibleApiEndpoints
-                    .stream()
-                    .anyMatch(pattern -> pattern.matcher(request.getRequestURI()).matches());
-
     public Predicate<HttpServletRequest> isSecured =
             request -> openApiEndpoints
                     .stream()

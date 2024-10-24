@@ -1,6 +1,6 @@
 # GridIron E-Commerce Application
 
-Welcome to the GridIron E-Commerce Application! This repository contains a Spring Boot-based e-commerce application that can be deployed locally using Docker or on a live server. Follow the instructions below to get started.
+Welcome to the GridIron E-Commerce Application! This repository contains a Spring Boot-based e-commerce application that can be deployed locally using Docker and ansible on a local or live server. Follow the instructions below to get started.
 
 ## Table of Contents
 

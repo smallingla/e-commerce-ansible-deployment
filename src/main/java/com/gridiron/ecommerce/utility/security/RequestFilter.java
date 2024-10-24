@@ -6,19 +6,19 @@ import com.gridiron.ecommerce.utility.ApiResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -52,7 +52,7 @@ public class RequestFilter extends OncePerRequestFilter {
                 return; // Return early to avoid further processing
             }
 
-            // Check if the route is secured and requires JWT validation
+            //Check if the route is secured and requires JWT validation
             if (routeValidator.isSecured.test(request)) {
                 checkIfRequestIsAccessibleByUser(request,response);
                 filterChain.doFilter(request, response);
@@ -87,47 +87,16 @@ public class RequestFilter extends OncePerRequestFilter {
         }
 
         List<String> roleStrings = (List<String>) jwtService.extractUserRole(jwtToken);
-        List<Role> roles = roleStrings.stream()
-                .map(Role::valueOf)
+
+        List<GrantedAuthority> authorities = roleStrings.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) // Prefix with 'ROLE_' if using hasRole() in SecurityConfig
                 .collect(Collectors.toList());
 
-        System.out.println(roles); // This should now print a list of Role enums
+        // Create an Authentication object and set it in the SecurityContext
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken("user", null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        if (roles.contains(Role.ADMIN)) {
-            System.out.println(1);
-            isRouteAccessibleToAdmin(request, response);
-        } else if (roles.contains(Role.CUSTOMER)) {
-            System.out.println(2);
-            isRouteAccessibleToCustomer(request, response);
-        } else {
-            System.out.println(3);
-            updateResponse(response, "Invalid JWT", FORBIDDEN);
-        }
-    }
-
-
-    /**
-     * This method check if the route is accessible to users with ADMIN ROLE
-     * @param request current HttpServletRequest of the request to be checked
-     * @param response current HttpServletResponse of the request
-     * @throws IOException if any error occurs during I/0
-     */
-    private void isRouteAccessibleToAdmin(HttpServletRequest request, HttpServletResponse response)
-            throws IOException{
-
-        if(!routeValidator.isAdminSecured.test(request)){
-            updateResponse(response, "Account Unauthorized", FORBIDDEN);
-        }
-    }
-    /**
-     * This method check if the route is accessible to users with ADMIN ROLE
-     */
-    private void isRouteAccessibleToCustomer(HttpServletRequest request, HttpServletResponse response)
-            throws IOException{
-
-        if(!routeValidator.isCustomerSecured.test(request)){
-            updateResponse(response, "Account Unauthorized", FORBIDDEN);
-        }
     }
 
 
