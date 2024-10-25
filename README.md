@@ -5,15 +5,20 @@ Welcome to the GridIron E-Commerce Application! This repository contains a Sprin
 ## Table of Contents
 
 1. [Prerequisites](#prerequisites)
-2. [Getting Started Locally](#getting-started-locally)
+2. [Entity Relationship Diagram](#entity-Relationship-diagram)
+3. [Getting Started Locally](#getting-started-locally)
     - [Option A: With Docker](#option-a-with-docker)
     - [Option B: Without Docker](#option-b-without-docker)
-3. [Deployment to a Live Server](#deployment-to-a-live-server)
+4. [Deployment to a Live Server](#deployment-to-a-live-server)
     - [Preparation](#preparation)
     - [Deploying with Ansible](#deploying-with-ansible)
-4. [Environment Variables](#environment-variables)
-5. [API Documentation](#api-documentation)
-6. [Support](#support)
+5. [Environment Variables](#environment-variables)
+6. [API Documentation](#api-documentation)
+7. [Support](#support)
+
+## Entity Relationship Diagram
+
+![erd diagram](https://res.cloudinary.com/www-uniqueprintsng-com/image/upload/v1729866332/Screenshot_2024-10-20_at_3.05.06_PM_lu1apq.png)
 
 ## Prerequisites
 
