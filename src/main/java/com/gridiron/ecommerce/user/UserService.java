@@ -33,7 +33,7 @@ public class UserService {
      */
     public void createUser(CreateUserRequest createUserRequest, Role role) {
 
-        if(userRepository.existsByEmail(createUserRequest.email())){
+        if(userRepository.existsByEmailIgnoreCase(createUserRequest.email())){
             throw new ResourceExistsException("Account Already Exists");
         }
 
@@ -57,7 +57,7 @@ public class UserService {
      * @return UserProfileResponse contains the token and the information of the user
      */
     public UserProfileResponse authenticateUser(String email, String password) {
-        User user =  userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFoundException("Invalid Account"));
+        User user =  userRepository.findByEmailIgnoreCase(email).orElseThrow(()->new ResourceNotFoundException("Invalid Account"));
 
         //check if password matches user account password
         if(!passwordEncoder.matches(password, user.getPassword())){

@@ -76,7 +76,6 @@ public class RequestFilter extends OncePerRequestFilter {
      * @param response current HttpServletResponse of the request
      * @throws IOException if any error occurs during I/0
      */
-
     private void checkIfRequestIsAccessibleByUser(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         String jwtToken = extractJwtToken(request);
@@ -96,7 +95,6 @@ public class RequestFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken("user", null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
     }
 
 

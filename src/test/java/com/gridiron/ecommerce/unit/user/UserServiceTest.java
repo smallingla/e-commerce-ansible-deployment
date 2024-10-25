@@ -55,7 +55,7 @@ public class UserServiceTest {
                 .password("password123")
                 .build();
 
-        when(userRepository.existsByEmail(request.email())).thenReturn(false);
+        when(userRepository.existsByEmailIgnoreCase(request.email())).thenReturn(false);
         when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
@@ -75,7 +75,7 @@ public class UserServiceTest {
                 .password("password123")
                 .build();
 
-        when(userRepository.existsByEmail(request.email())).thenReturn(true);
+        when(userRepository.existsByEmailIgnoreCase(request.email())).thenReturn(true);
 
         // Act & Assert
         assertThrows(ResourceExistsException.class, () -> userService.createUser(request, Role.CUSTOMER));
@@ -88,7 +88,7 @@ public class UserServiceTest {
         String password = "password123";
         User user = new User("John", "Doe", email, passwordEncoder.encode(password), Set.of(Role.CUSTOMER));
 
-        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(userRepository.findByEmailIgnoreCase(email)).thenReturn(Optional.of(user));
         when(jwtService.generateToken(anyString(), anyMap())).thenReturn("mocked-jwt-token");
 
         // Act
@@ -106,7 +106,7 @@ public class UserServiceTest {
         String email = "nonexistent@example.com";
         String password = "password123";
 
-        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+        when(userRepository.findByEmailIgnoreCase(email)).thenReturn(Optional.empty());
 
         // Act & Assert
         assertThrows(ResourceNotFoundException.class, () -> userService.authenticateUser(email, password));
@@ -119,7 +119,7 @@ public class UserServiceTest {
         String password = "wrongpassword";
         User user = new User("John", "Doe", email, passwordEncoder.encode("password123"), Set.of(Role.CUSTOMER));
 
-        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(userRepository.findByEmailIgnoreCase(email)).thenReturn(Optional.of(user));
 
         // Act & Assert
         assertThrows(UnauthorizedException.class, () -> userService.authenticateUser(email, password));

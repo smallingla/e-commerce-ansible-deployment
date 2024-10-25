@@ -44,7 +44,7 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
 
         userService.createUser(request, Role.CUSTOMER);
 
-        User user = userRepository.findByEmail("john.doe@example.com")
+        User user = userRepository.findByEmailIgnoreCase("john.doe@example.com")
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         assertEquals("John", user.getFirstName());
