@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF if using stateless JWTs
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/actuator/**", "api/v1/users/public/**","api/v1/products/public/**").permitAll() // Allow access to actuator endpoints
-                        .requestMatchers("/api/v1/products/private/**", "/api/v1/orders/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/products/private**", "/api/v1/orders/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/carts/private/**","/api/v1/orders/customer/**").hasRole("CUSTOMER")
                         .anyRequest().authenticated() // Require authentication for all other requests
                 )

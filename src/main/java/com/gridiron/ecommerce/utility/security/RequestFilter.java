@@ -39,7 +39,7 @@ public class RequestFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException {
 
         try {
@@ -64,8 +64,8 @@ public class RequestFilter extends OncePerRequestFilter {
 
         } catch (Exception e) {
             // In case of an internal error, return a 500 status code and error message
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            writeErrorResponse(response, "An error occurred: " + e.getMessage());
+            log.severe(e.getMessage());
+            updateResponse(response,"Oops something went wrong, Try Again", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -107,11 +107,12 @@ public class RequestFilter extends OncePerRequestFilter {
      */
     private static void updateResponse(HttpServletResponse response, String message, HttpStatus httpStatus)
             throws IOException  {
+        if (!response.isCommitted()) {
+            response.setStatus(httpStatus.value());
+            response.setContentType(APPLICATION_JSON_VALUE);
+            new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(false, message, null));
+        }
 
-        response.setStatus(httpStatus.value());
-        response.setContentType(APPLICATION_JSON_VALUE);
-
-        new ObjectMapper().writeValue(response.getOutputStream(),new ApiResponse(false, message, null));
     }
 
 
@@ -150,9 +151,11 @@ public class RequestFilter extends OncePerRequestFilter {
      * @throws IOException If an input or output exception occurs.
      */
     private void writeErrorResponse(HttpServletResponse response, String errorMessage) throws IOException {
-        response.setContentType("application/json");
-        ApiResponse apiResponse = new ApiResponse(false, errorMessage, null);
-        ObjectMapper objectMapper = new ObjectMapper();
-        response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
+        if (!response.isCommitted()) {
+            response.setContentType("application/json");
+            ApiResponse apiResponse = new ApiResponse(false, errorMessage, null);
+            ObjectMapper objectMapper = new ObjectMapper();
+            response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
+        }
     }
 }

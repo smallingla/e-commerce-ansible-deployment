@@ -19,13 +19,13 @@ import java.util.function.Function;
 public class JwtService {
 
     @Value("${application.security.secretKey}")
-    private String secretKey;
+    public String secretKey;
 
     /**
      * Convert the secret key to a Key object for signing the JWT.
      * This field holds the signing key for HMAC-SHA256 algorithm.
      */
-    private Key getSigningKey(String secretKey) {
+    public Key getSigningKey(String secretKey) {
         return  new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
     }
 

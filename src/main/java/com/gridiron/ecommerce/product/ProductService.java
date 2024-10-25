@@ -1,6 +1,7 @@
 package com.gridiron.ecommerce.product;
 
 import com.gridiron.ecommerce.cartItem.CartItemRepository;
+import com.gridiron.ecommerce.orderItem.OrderItem;
 import com.gridiron.ecommerce.product.request.CreateProductRequest;
 import com.gridiron.ecommerce.product.request.EditProductRequest;
 import com.gridiron.ecommerce.product.response.ProductResponse;
@@ -139,6 +140,37 @@ public class ProductService {
         productRepository.deleteById(productId);
         //delete all corresponding cart_item that is associated to the product
         cartItemRepository.deleteByProductId(productId);
+    }
+
+
+    /**
+     * Updates the availability quantity of products based on the provided order items.
+     * This method adjusts the availability quantity of products by deducting or adding
+     * the quantity specified in each OrderItem.
+     *
+     * @param orderItems A collection of OrderItem objects containing the products and their quantities.
+     * @param deduct A boolean flag indicating whether to deduct (true) or add (false) the quantities.
+     */
+    public void updateProductQuantityFromOrderItem(Collection<OrderItem> orderItems, boolean deduct) {
+
+        List<Product> products = new ArrayList<>();
+        for (OrderItem orderItem : orderItems) {
+            Product product = orderItem.getProduct();
+
+            if(deduct){
+                if(product.getAvailabilityQuantity()!=0){
+                    product.setAvailabilityQuantity(product.getAvailabilityQuantity()-orderItem.getQuantity());
+                    product.setUpdatedAt(LocalDateTime.now());
+                    products.add(product);
+                }
+            }else{
+                product.setAvailabilityQuantity(product.getAvailabilityQuantity() + orderItem.getQuantity());
+                product.setUpdatedAt(LocalDateTime.now());
+                products.add(product);
+            }
+
+            productRepository.saveAll(products);
+        }
     }
 
 

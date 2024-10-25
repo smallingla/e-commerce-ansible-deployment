@@ -6,6 +6,7 @@ import com.gridiron.ecommerce.cartItem.request.CreateCartItemRequest;
 import com.gridiron.ecommerce.product.Product;
 import com.gridiron.ecommerce.product.ProductRepository;
 import com.gridiron.ecommerce.utility.PaginatedData;
+import com.gridiron.ecommerce.utility.exception.InvalidInputException;
 import com.gridiron.ecommerce.utility.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,10 @@ public class CartService {
         Product product = productRepository.findById(createCartItemRequest.productId()).orElseThrow(
                 () -> new ResourceNotFoundException("Product with id " + createCartItemRequest.productId() + " not found")
         );
+
+        if(createCartItemRequest.quantity()>product.getAvailabilityQuantity()){
+            throw new InvalidInputException("Product Quantity Exceeded");
+        }
 
         Optional<Cart> cart = cartRepository.findByUserId(userId);
         if(cart.isEmpty()){

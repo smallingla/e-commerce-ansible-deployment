@@ -56,6 +56,7 @@ public class ProductController {
 
     /**
      * This endpoint deletes a product by the productId
+     * It is secured and only accessible by authenticated users with role ADMIN
      */
     @DeleteMapping("/private/{product-id}")
     private ResponseEntity<ApiResponse> deleteProduct(@PathVariable("product-id") Long productId) {

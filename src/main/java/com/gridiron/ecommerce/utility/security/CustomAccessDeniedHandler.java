@@ -43,15 +43,17 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
      */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        // Set the status code to 403 Forbidden
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setContentType("application/json");
+        if (!response.isCommitted()) {
+            // Set the status code to 403 Forbidden
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json");
 
-        // Create a custom error message
-        ApiResponse apiResponse = new ApiResponse(false, "Access Denied", null);
+            // Create a custom error message
+            ApiResponse apiResponse = new ApiResponse(false, "Access Denied", null);
 
-        // Write the custom error message to the response
-        ObjectMapper objectMapper = new ObjectMapper();
-        response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
+            // Write the custom error message to the response
+            ObjectMapper objectMapper = new ObjectMapper();
+            response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
+        }
     }
 }
