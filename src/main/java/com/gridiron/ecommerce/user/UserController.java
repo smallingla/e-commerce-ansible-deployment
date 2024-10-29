@@ -42,7 +42,7 @@ public class UserController {
 
         userService.createUser(createUserRequest,Role.ADMIN);
         return new ResponseEntity<>(new ApiResponse(true,
-                "Customer Created Successfully", null), HttpStatus.CREATED);
+                "Admin Created Successfully", null), HttpStatus.CREATED);
     }
 
     /**

@@ -84,7 +84,6 @@ public class ProductService {
                 .totalSize(products.getTotalElements())
                 .data(formatProductsToProductResponse(products.getContent()))
                 .build();
-
     }
 
     /**
